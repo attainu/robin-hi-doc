@@ -1,0 +1,1 @@
+const doctorAppointmentModel = require("../model/doctorAppointment")
