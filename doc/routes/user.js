@@ -3,7 +3,7 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const detect = require("../middelware/verification");
+const verify = require("../middelware/verification");
 
 
 // User SignUp
@@ -112,7 +112,7 @@ router.post('/login',
 
 
 // verification of User its loggedIN
-router.get("/private", detect, async (req, res) => {
+router.get("/private", verify, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     res.json(user);
@@ -120,6 +120,34 @@ router.get("/private", detect, async (req, res) => {
     res.send({ message: "error during fetching user" });
   }
 });
+
+
+
+// update user information
+router.patch('/update/:id', verify, async (req, res) => {
+  try{
+  const salt = await bcrypt.genSalt(10);
+  hashedpassword = await bcrypt.hash(req.body.password, salt);
+  await User.findByIdAndUpdate(req.params.id, {$set: {username: req.body.username, email:req.body.email, password:hashedpassword}})
+    res.send('user information updated Succesfully');
+  }catch(err){
+    res.json({ message: err })
+    // res.json("error")
+  }    
+})
+
+
+// delete user data
+router.delete('/delete/:id', verify, async (req, res) => {
+  try{
+    await User.findByIdAndRemove(req.params.id);
+    res.json('Account Data Removed Suceesfully')
+  }catch (err) {
+    // res.json({ message: err })
+    res.json('Error in Removing Data')
+  }
+})
+
 
 
 
