@@ -56,20 +56,20 @@ const patientAptMiddlewares = {
   },
   isDocAvailable: async (req, res, next) => {
     try {
-      let specificDoc = await doctorProfile.findOne({
+      var specificDoc = await doctorProfile.findOne({
         registrationId: req.body.registrationId,
       });
-      console.log("SD:", specificDoc);
-      let isDayAvailable = specificDoc.availability.find(
+      // console.log("SD:", specificDoc);
+      var isDayAvailable = specificDoc.availability.find(
         (i) => i.day == req.body.schedule.day
       );
-      console.log("dayAvail:", isDayAvailable);
+      // console.log("dayAvail:", isDayAvailable);
       if (!isDayAvailable)
         return res
           .status(400)
           .json({ error: "Doctor is not available on the requested day" });
       else if (isDayAvailable) {
-        let isSlotAvailable = specificDoc.availability.find((i) => {
+        var isSlotAvailable = specificDoc.availability.find((i) => {
           if (
             i.timings[req.body.schedule.timings] &&
             i.timings[req.body.schedule.timings] == true
@@ -77,14 +77,28 @@ const patientAptMiddlewares = {
             return i;
           }
         });
-        console.log("slotAvail:", isSlotAvailable);
+        // console.log("slotAvail:", isSlotAvailable);
         if (!isSlotAvailable)
           return res.json({
             error: "Doctor is not available in the particular timings",
           });
         else {
           isSlotAvailable.timings[req.body.schedule.timings] = false;
-          await specificDoc.save();
+          // console.log(
+          //   "status:",
+          //   isSlotAvailable.timings[req.body.schedule.timings]
+          // );
+          // console.log(JSON.stringify(specificDoc, null));
+          // await specificDoc.save();
+          // const index = specificDoc.availability.findIndex(i=>i==isSlotAvailable)
+          // // console.log(index)
+          const updatedDocProfile = await doctorProfile.findOneAndUpdate(
+            {
+              registrationId: req.body.registrationId,
+              "availability._id": isSlotAvailable._id,
+            },
+            { $set: { "availability.$.timings": isSlotAvailable.timings } }
+          );
         }
         next();
       }
