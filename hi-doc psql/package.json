@@ -8,7 +8,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "author": "",
+  "author": "Uppala Praveen, Sali Mahat",
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",

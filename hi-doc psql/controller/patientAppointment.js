@@ -3,7 +3,7 @@ const { dp } = require("../model/doctorProfile");
 const patientProfile = require("../model/patientProfile");
 const doctorAptModel = require("../model/doctorAppointment");
 const moment = require("moment");
-const { where } = require("../../hi-doc/model/doctorAppointment");
+
 // const  updateOne  = require("../model/patientProfile");
 
 const patientAppLogix = {
