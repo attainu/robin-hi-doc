@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-/* https://github.com/Automattic/mongoose/issues/2226 ~stgogm on 17 Jun 2016 */
 const doctorAvailabailitySchema = mongoose.Schema({
   day: {
     type: String,
@@ -41,6 +40,7 @@ const doctorProfile = mongoose.Schema({
   },
   phone: {
     type: String,
+    unique:true,
     required: true,
     minLength: 10,
     maxLength: 10,

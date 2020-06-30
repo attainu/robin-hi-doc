@@ -14,15 +14,15 @@ const post_schema = JOI.object({
 });
 
 const patch_schema = JOI.object({
-  doctor: JOI.string().min(3),
-  region: JOI.string().min(3),
-  speciality: JOI.string().min(3),
-  registrationId: JOI.string().min(4),
+  doctor: JOI.string().min(3).not(),
+  region: JOI.string().min(3).not(),
+  speciality: JOI.string().min(3).not(),
+  registrationId: JOI.string().min(4).not(),
   schedule: {
-    day: JOI.string().min(10).max(10),
-    timings: JOI.string(),
+    day: JOI.string().min(10).max(10).not(),
+    timings: JOI.string().not(),
   },
-  patientPhone: JOI.string().min(10).max(10),
+  patientPhone: JOI.string().min(10).max(10).not(),
   appointmentRequest: JOI.boolean().required(),
 });
 

@@ -26,6 +26,7 @@ const validate = function (req, res, next) {
   }
   if (!moment(req.body.availability.day).isValid())
     return res.status(400).send("enter day in the YYYY-MM-DD format");
+  if (moment(req.body.availability.day).isBefore(moment())) return res.status(400).send('cannot add the day before the current day')  
   const timings = Object.keys(req.body.availability.timings);
   const regex = /^[1]?\d:[0 3]0-[1]?\d:[0 3]0$/;
   timings.forEach((timing) => {
@@ -45,7 +46,7 @@ const addAvailabilityValidate = function (req, res, next) {
   }
   if (!moment(req.body.availability.day).isValid())
     return res.status(400).send("enter day in the YYYY-MM-DD format");
-
+  if (moment(req.body.availability.day).isBefore(moment())) return res.status(400).send('cannot add the day before the current day')
   const timings = Object.keys(req.body.availability.timings);
   const regex = /^[1]?\d:[0 3]0-[1]?\d:[0 3]0$/;
   timings.forEach((timing) => {

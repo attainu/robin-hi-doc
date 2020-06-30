@@ -70,7 +70,7 @@ async PatientLogin(req, res) {
         },
         (err, token) => {
           if (err) throw err;
-          res.status(200).json({ token });
+          res.status(200).json({ msg:'login sucessfull', token });
         }
       );
    }catch (err) {

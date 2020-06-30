@@ -11,6 +11,7 @@ const PatientSchema = new mongoose.Schema({
 
     email: {
         type: String,
+        unique: true,
         required: true,
         max:255,
         min: 6

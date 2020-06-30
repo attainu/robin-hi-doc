@@ -23,7 +23,7 @@ const patientProfileSchema = mongoose.Schema({
     },
     phone:{
         type:String,
-        uniqie:true,
+        unique: true,
         required:true,
     }
 })
